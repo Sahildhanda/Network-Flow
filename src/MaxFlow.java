@@ -43,6 +43,12 @@ class MaxFlow
 
     int fordFulkerson(int graph[][], int s, int t) 
     {
+//        for(int i=0;i<V;i++) {
+//        	for(int j=0;j<V;j++) {
+//        		System.out.print(graph[i][j]);
+//        	}
+//        	System.out.println();
+//        }
         int u, v;
         int rGraph[][] = new int[V][V]; 
   
@@ -71,12 +77,7 @@ class MaxFlow
             max_flow += path_flow; 
         }
         this.rGraph = rGraph;
-//        for(int i=0;i<V;i++) {
-//        	for(int j=0;j<V;j++) {
-//        		System.out.print(this.rGraph[i][j]);
-//        	}
-//        	System.out.println();
-//        }
+
         return max_flow;
     }
 }

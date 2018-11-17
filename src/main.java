@@ -2,6 +2,7 @@ import java.io.*;
 public class main {
 
 	public static void main(String[] args) throws IOException {
+		long startTime = System.nanoTime();
 		File file = new File("./src/task");
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String st;
@@ -74,14 +75,14 @@ public class main {
 		for(int i=0;i<worker_bounds[1].length;i++) {
 			lowerLimitsOfWorkers+=worker_bounds[1][i];
 		}
-
+		System.out.println("Summation of Lower Limits of Workers:"+lowerLimitsOfWorkers);
 		
 		int lowerLimitsOfTasks = 0;
 		for(int i=0;i<task_bounds[1].length;i++) {
 			lowerLimitsOfTasks+=task_bounds[1][i];
 		}
-		//System.out.println(lowerLimitsOfTasks);
-		
+		System.out.println("Summation of Lower Limits of Tasks:"+lowerLimitsOfTasks);
+		System.out.println("\nMax Flow after running Edmond Karp:"+MAX_FLOW_DONE);
 	
 		int totalTaskBoundsCompleted = 0;
 		for(int i =task_start;i<task_stop;i++) {
@@ -118,13 +119,15 @@ public class main {
 
 				}
 			}
+
+			
 			
 			MAX_FLOW_DONE+= m.fordFulkerson(m.rGraph, source_pos, sink_pos);
 			int totalTaskBoundsCompleted_1 = 0;
 			for(int i =task_start;i<task_stop;i++) {
 				totalTaskBoundsCompleted_1+=m.rGraph[sink_pos][i];
 			}
-
+			System.out.println("\nMax Flow after running Edmond Karp:"+MAX_FLOW_DONE);
 			if(lowerLimitsOfTasks == totalTaskBoundsCompleted_1) {
 				System.out.println("Task's Lower Bounds satisfied.");
 			}
@@ -186,10 +189,12 @@ public class main {
 			int remaining_bounds = task_bounds[2][i-total_worker-1] - m.rGraph[sink_pos][i];
 			m.rGraph[i][sink_pos] = remaining_bounds;
 		}
+		System.out.println("\n-----------------------------------------------------------------------------------------");
+		System.out.println("Updating all Worker and Task side bounds to (Upper-(Already Used)) bounds");
 		
-		
+	
 		MAX_FLOW_DONE+= m.fordFulkerson(m.rGraph, source_pos, sink_pos);
-		System.out.println("\nMAX FLOW:"+MAX_FLOW_DONE);
+		System.out.println("MAX Flow after running Edmond Karp:"+MAX_FLOW_DONE);
 
 //-----------------------------------Print Tasks assigned to Workers---------------------------------------------------------
 		for(int i =worker_start;i<worker_stop;i++) {
@@ -199,6 +204,10 @@ public class main {
 				}
 			}
 		}
+		long endTime = System.nanoTime();
+
+        System.out.println("Total time it took to run this is " + (endTime
+                - startTime) / Math.pow(10, 6) + " milliseconds");
 		
 	}
 }
